@@ -35,6 +35,11 @@ module "cicd" {
     images = [
         "gcr.io/$PROJECT_ID/kms-secrets-operator:$COMMIT_SHA"
     ]
+    build_tags = [
+        "kms-secrets-operator",
+        "image",
+        "build"
+    ]
     steps = [
         {
             name = "gcr.io/cloud-builders/docker"

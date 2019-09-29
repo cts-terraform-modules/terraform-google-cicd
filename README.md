@@ -15,8 +15,19 @@ module "cicd" {
   source  = "terraform-google-modules/cicd/google"
   version = "~> 0.1"
 
-  project_id  = "<PROJECT ID>"
-  bucket_name = "gcs-test-bucket"
+  project  = "<PROJECT ID>"
+  repo_name = "test-repo"
+  trigger_description = "Test build trigger."
+  disabled = false
+  substitutions {
+    _ENV = "prod"
+  }
+  filename = "cloudbuild.yaml"
+  ignored_files = [
+    "**/.gitignore",
+    "**/README.md"
+  ]
+  branch_name = "master"
 }
 ```
 
@@ -28,14 +39,28 @@ Functional examples are included in the
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| bucket\_name | The name of the bucket to create | string | n/a | yes |
-| project\_id | The project ID to deploy to | string | n/a | yes |
+| branch\_name | (Optional) Name of the branch to build. Exactly one a of branch name, tag, or commit SHA must be provided. | string | `"null"` | no |
+| build\_tags | (Optional) Tags for annotation of a Build. These are not docker tags. | string | `"null"` | no |
+| commit\_sha | (Optional) Explicit commit SHA to build. Exactly one of a branch name, tag, or commit SHA must be provided. | string | `"null"` | no |
+| disabled | (Optional) Whether the trigger is disabled or not. If true, the trigger will never result in a build. | string | `"null"` | no |
+| filename | (Optional) Path, from the source root, to a file whose contents is used for the template. Either a filename or build template must be provided. | string | `"null"` | no |
+| ignored\_files | (Optional) A list of files to be ignored by the trigger (Golang style globbing). | string | `"null"` | no |
+| images | (Optional) A list of images to be pushed upon the successful completion of all build steps. | string | `"null"` | no |
+| included\_files | (Optional) A list of files to be specifically included (Golang style globbing). | string | `"null"` | no |
+| project | (Optional) The ID of the project in which the resource belongs. If it is not provided, the provider project is used. | string | `"null"` | no |
+| repo\_name | (Required) Resource name of the repository, of the form {{repo}}. The repo name may contain slashes. eg, name/with/slash | string | n/a | yes |
+| source\_dir | (Optional) Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's dir is specified and is an absolute path, this value is ignored for that step's execution. | string | `"null"` | no |
+| steps | (Optional) A list of objects which define operations to be performed on the workspace. | object | `"null"` | no |
+| substitutions | (Optional) Substitutions data for Build resource. | map(string) | `"null"` | no |
+| tag\_name | (Optional) Name of the tag to build. Exactly one of a branch name, tag, or commit SHA must be provided. | string | `"null"` | no |
+| trigger\_description | (Optional) Human-readable description of the trigger. | string | `"null"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| bucket\_name |  |
+| cloudbuild\_trigger |  |
+| sourcerepo\_repository |  |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
@@ -55,7 +80,8 @@ The following dependencies must be available:
 A service account with the following roles must be used to provision
 the resources of this module:
 
-- Storage Admin: `roles/storage.admin`
+- Cloud Build Editor: `roles/cloudbuild.builds.editor`
+- Source Repositories Admin: `roles/source.admin`
 
 The [Project Factory module][project-factory-module] and the
 [IAM module][iam-module] may be used in combination to provision a
@@ -66,7 +92,8 @@ service account with the necessary roles applied.
 A project with the following APIs enabled must be used to host the
 resources of this module:
 
-- Google Cloud Storage JSON API: `storage-api.googleapis.com`
+- Cloud Source Repositories API: `sourcerepo.googleapis.com`
+- Cloud Build API: `cloudbuild.googleapis.com`
 
 The [Project Factory module][project-factory-module] can be used to
 provision a project with the necessary APIs enabled.

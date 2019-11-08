@@ -20,6 +20,7 @@ terraform {
 
 // cloud source repository
 resource "google_sourcerepo_repository" "default" {
+  count   = "${var.create_repo ? 1 : 0}"
   name    = var.repo_name
   project = var.project
 }
@@ -33,8 +34,8 @@ resource "google_cloudbuild_trigger" "default" {
   ignored_files  = var.ignored_files
   included_files = var.included_files
   trigger_template {
-    project_id  = google_sourcerepo_repository.default.project
-    repo_name   = google_sourcerepo_repository.default.name
+    project_id  = var.project
+    repo_name   = var.repo_name
     dir         = var.source_dir
     branch_name = var.branch_name
     tag_name    = var.tag_name
@@ -60,7 +61,7 @@ resource "google_cloudbuild_trigger" "default" {
             path = volumes.value["path"]
           }
         }
-        wait_for   = step.value["wait_for"]
+        wait_for = step.value["wait_for"]
       }
     }
   }

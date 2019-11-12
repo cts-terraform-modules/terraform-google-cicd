@@ -47,18 +47,18 @@ resource "google_cloudbuild_trigger" "default" {
     dynamic "step" {
       for_each = var.steps
       content {
-        name       = step.value["name"]
-        args       = step.value["args"]
-        env        = step.value["env"]
-        id         = step.value["id"]
-        entrypoint = step.value["entrypoint"]
-        dir        = step.value["dir"]
-        timeout    = step.value["timeout"]
+        name       = lookup(step.value, "name", null)
+        args       = lookup(step.value, "args", null)
+        env        = lookup(step.value, "env", null)
+        id         = lookup(step.value, "id", null)
+        entrypoint = lookup(step.value, "entrypoint", null)
+        dir        = lookup(step.value, "dir", null)
+        timeout    = lookup(step.value, "timeout", null)
         dynamic "volumes" {
-          for_each = step.value["volumes"]
+          for_each = lookup(step.value, "volumes", [])
           content {
-            name = volumes.value["name"]
-            path = volumes.value["path"]
+            name = lookup(volumes.value, "name", null)
+            path = lookup(step.value, "path", null)
           }
         }
         wait_for = step.value["wait_for"]

@@ -48,8 +48,8 @@ resource "google_cloudbuild_trigger" "default" {
       for_each = var.steps
       content {
         name       = lookup(step.value, "name", null)
-        args       = lookup(step.value, "args", null)
-        env        = lookup(step.value, "env", null)
+        args       = lookup(step.value, "args", [])
+        env        = lookup(step.value, "env", [])
         id         = lookup(step.value, "id", null)
         entrypoint = lookup(step.value, "entrypoint", null)
         dir        = lookup(step.value, "dir", null)
@@ -58,10 +58,10 @@ resource "google_cloudbuild_trigger" "default" {
           for_each = lookup(step.value, "volumes", [])
           content {
             name = lookup(volumes.value, "name", null)
-            path = lookup(step.value, "path", null)
+            path = lookup(volumes.value, "path", null)
           }
         }
-        wait_for = step.value["wait_for"]
+        wait_for = lookup(step.value, "wait_for", [])
       }
     }
   }

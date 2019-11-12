@@ -105,5 +105,17 @@ variable "steps" {
     wait_for = list(string)
   }))
   description = "(Optional) A list of objects which define operations to be performed on the workspace."
-  default     = null
+  default = [
+    {
+      name       = null
+      args       = []
+      env        = []
+      id         = null
+      entrypoint = null
+      dir        = null
+      timeout    = null
+      volumes    = []
+      wait_for   = []
+    }
+  ]
 }

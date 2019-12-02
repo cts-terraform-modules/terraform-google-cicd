@@ -12,23 +12,41 @@ Basic usage of this module is as follows:
 
 ```hcl
 module "cicd" {
-  source  = "terraform-google-modules/cicd/google"
-  version = "~> 0.1"
+  source = "git@gitlab.com:cloudsolutions/internal/terraform/module-registry/terraform-google-cicd.git?ref=cts0.0.1"
 
-  project  = "<PROJECT ID>"
-  repo_name = "test-repo"
-  create_repo = true
-  trigger_description = "Test build trigger."
-  disabled = false
-  substitutions {
-    _ENV = "prod"
-  }
-  filename = "cloudbuild.yaml"
+  trigger_description = "Builds the test image."
+  repo_name           = "test"
+  project             = var.project
   ignored_files = [
-    "**/.gitignore",
-    "**/README.md"
+    ".gitignore",
   ]
   branch_name = "master"
+  images = [
+    "gcr.io/$PROJECT_ID/test:$COMMIT_SHA"
+  ]
+  build_tags = [
+    "test",
+    "image",
+    "build"
+  ]
+  steps = [
+    {
+      name = "gcr.io/cloud-builders/docker"
+      args = [
+        "build",
+        "-t",
+        "gcr.io/$PROJECT_ID/test:$COMMIT_SHA",
+        "."
+      ]
+      env        = []
+      id         = ""
+      entrypoint = ""
+      dir        = ""
+      timeout    = ""
+      volumes    = []
+      wait_for   = []
+    }
+  ]
 }
 ```
 
@@ -41,19 +59,18 @@ Functional examples are included in the
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | branch\_name | (Optional) Name of the branch to build. Exactly one a of branch name, tag, or commit SHA must be provided. | string | `"null"` | no |
-| build\_tags | (Optional) Tags for annotation of a Build. These are not docker tags. | string | `"null"` | no |
+| build\_tags | (Optional) Tags for annotation of a Build. These are not docker tags. | list(string) | `"null"` | no |
 | commit\_sha | (Optional) Explicit commit SHA to build. Exactly one of a branch name, tag, or commit SHA must be provided. | string | `"null"` | no |
-| create\_repo | (Optional) If create_repo is set to true, the Cloud Source Repository will be created. | string | `"true"` | no |
-| disabled | (Optional) Whether the trigger is disabled or not. If true, the trigger will never result in a build. | string | `"null"` | no |
+| create\_repo | (Optional) If create_repo is set to true, the Cloud Source Repository will be created. | bool | `"true"` | no |
+| disabled | (Optional) Whether the trigger is disabled or not. If true, the trigger will never result in a build. | bool | `"null"` | no |
 | filename | (Optional) Path, from the source root, to a file whose contents is used for the template. Either a filename or build template must be provided. | string | `"null"` | no |
-| ignored\_files | (Optional) A list of files to be ignored by the trigger (Golang style globbing). | string | `"null"` | no |
-| images | (Optional) A list of images to be pushed upon the successful completion of all build steps. | string | `"null"` | no |
-| timeout | (Optional) Max timeout value for the build in seconds | string | `"null"` | no |
-| included\_files | (Optional) A list of files to be specifically included (Golang style globbing). | string | `"null"` | no |
+| ignored\_files | (Optional) A list of files to be ignored by the trigger (Golang style globbing). | list(string) | `"null"` | no |
+| images | (Optional) A list of images to be pushed upon the successful completion of all build steps. | list(string) | `"null"` | no |
+| included\_files | (Optional) A list of files to be specifically included (Golang style globbing). | list(string) | `"null"` | no |
 | project | (Optional) The ID of the project in which the Cloud Build should be deployed. If it is not provided, the provider project is used. | string | `"null"` | no |
 | repo\_name | (Required) Resource name of the repository, of the form {{repo}}. The repo name may contain slashes. eg, name/with/slash | string | n/a | yes |
 | source\_dir | (Optional) Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's dir is specified and is an absolute path, this value is ignored for that step's execution. | string | `"null"` | no |
-| steps | (Optional) A list of objects which define operations to be performed on the workspace. | object | `"null"` | no |
+| steps | (Optional) A list of objects which define operations to be performed on the workspace. | object | `<list>` | no |
 | substitutions | (Optional) Substitutions data for Build resource. | map(string) | `"null"` | no |
 | tag\_name | (Optional) Name of the tag to build. Exactly one of a branch name, tag, or commit SHA must be provided. | string | `"null"` | no |
 | trigger\_description | (Optional) Human-readable description of the trigger. | string | `"null"` | no |
@@ -62,8 +79,8 @@ Functional examples are included in the
 
 | Name | Description |
 |------|-------------|
-| cloudbuild\_trigger |  |
-| sourcerepo\_repository |  |
+| cloudbuild\_trigger | The Cloud Build trigger object that was created. |
+| sourcerepo\_repository | The Google Cloud Source Repository that was created (if created). |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

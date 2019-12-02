@@ -16,76 +16,90 @@
 
 variable "repo_name" {
   description = "(Required) Resource name of the repository, of the form {{repo}}. The repo name may contain slashes. eg, name/with/slash"
+  type        = string
 }
 
 variable "create_repo" {
   description = "(Optional) If create_repo is set to true, the Cloud Source Repository will be created."
+  type        = bool
   default     = true
 }
 
 variable "project" {
   description = "(Optional) The ID of the project in which the Cloud Build should be deployed. If it is not provided, the provider project is used."
+  type        = string
   default     = null
 }
 
 variable "trigger_description" {
   description = "(Optional) Human-readable description of the trigger."
+  type        = string
   default     = null
 }
 
 variable "disabled" {
   description = "(Optional) Whether the trigger is disabled or not. If true, the trigger will never result in a build."
+  type        = bool
   default     = null
 }
 
 variable "substitutions" {
-  type        = map(string)
   description = "(Optional) Substitutions data for Build resource."
+  type        = map(string)
   default     = null
 }
 
 variable "filename" {
   description = "(Optional) Path, from the source root, to a file whose contents is used for the template. Either a filename or build template must be provided."
+  type        = string
   default     = null
 }
 
 variable "ignored_files" {
   description = "(Optional) A list of files to be ignored by the trigger (Golang style globbing)."
+  type        = list(string)
   default     = null
 }
 
 variable "included_files" {
   description = "(Optional) A list of files to be specifically included (Golang style globbing)."
+  type        = list(string)
   default     = null
 }
 
 variable "source_dir" {
   description = "(Optional) Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's dir is specified and is an absolute path, this value is ignored for that step's execution."
+  type        = string
   default     = null
 }
 
 variable "branch_name" {
   description = "(Optional) Name of the branch to build. Exactly one a of branch name, tag, or commit SHA must be provided."
+  type        = string
   default     = null
 }
 
 variable "tag_name" {
   description = "(Optional) Name of the tag to build. Exactly one of a branch name, tag, or commit SHA must be provided."
+  type        = string
   default     = null
 }
 
 variable "commit_sha" {
   description = "(Optional) Explicit commit SHA to build. Exactly one of a branch name, tag, or commit SHA must be provided."
+  type        = string
   default     = null
 }
 
 variable "build_tags" {
   description = "(Optional) Tags for annotation of a Build. These are not docker tags."
+  type        = list(string)
   default     = null
 }
 
 variable "images" {
   description = "(Optional) A list of images to be pushed upon the successful completion of all build steps."
+  type        = list(string)
   default     = null
 }
 

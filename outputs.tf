@@ -15,9 +15,11 @@
  */
 
 output "sourcerepo_repository" {
-  value = google_sourcerepo_repository.default
+  value       = google_sourcerepo_repository.default
+  description = "The Google Cloud Source Repository that was created (if created)."
 }
 
 output "cloudbuild_trigger" {
-  value = google_cloudbuild_trigger.default
+  value       = google_cloudbuild_trigger.default
+  description = "The Cloud Build trigger object that was created."
 }

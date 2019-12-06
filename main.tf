@@ -67,3 +67,20 @@ resource "google_cloudbuild_trigger" "default" {
   }
 }
 
+resource "null_resource" "push_to_git" {
+  count = var.repo_dir == "" ? 0 : 1
+  triggers = {
+    time = timestamp()
+  }
+  provisioner "local-exec" {
+    command = "${path.module}/src/git-helper.sh"
+
+    environment = {
+      URL = google_sourcerepo_repository.default[0].url
+      LOCAL_REPO = var.repo_dir
+    }
+  }
+  depends_on = [
+    google_sourcerepo_repository.default[0]
+  ]
+}

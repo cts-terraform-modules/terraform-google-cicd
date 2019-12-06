@@ -25,6 +25,10 @@ variable "create_repo" {
   default     = true
 }
 
+variable "repo_dir" {
+  description = "(Optional) If you want to push code to the created repo, this is the local dir where the code is stored."
+}
+
 variable "project" {
   description = "(Optional) The ID of the project in which the Cloud Build should be deployed. If it is not provided, the provider project is used."
   type        = string

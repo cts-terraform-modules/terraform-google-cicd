@@ -27,6 +27,8 @@ variable "create_repo" {
 
 variable "repo_dir" {
   description = "(Optional) If you want to push code to the created repo, this is the local dir where the code is stored."
+  type        = string
+  default     = null
 }
 
 variable "project" {

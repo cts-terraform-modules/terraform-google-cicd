@@ -89,6 +89,11 @@ variable "images" {
   default     = null
 }
 
+variable "timeout" {
+  description = "(Optional) Max timeout value for the build in seconds"
+  default     = null
+}
+
 variable "steps" {
   type = list(object({
     name       = string

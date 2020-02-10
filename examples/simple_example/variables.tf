@@ -18,3 +18,8 @@ variable "project" {
   description = "The ID of the project in which to provision resources."
   type        = string
 }
+
+variable "timeout" {
+  description = "Max build time in seconds"
+  type        = string
+}

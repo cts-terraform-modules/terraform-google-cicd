@@ -20,7 +20,7 @@ terraform {
 
 // cloud source repository
 resource "google_sourcerepo_repository" "default" {
-  count   = "${var.create_repo ? 1 : 0}"
+  count   = var.create_repo ? 1 : 0
   name    = var.repo_name
   project = var.project
 }
@@ -42,8 +42,9 @@ resource "google_cloudbuild_trigger" "default" {
     commit_sha  = var.commit_sha
   }
   build {
-    tags   = var.build_tags
-    images = var.images
+    tags    = var.build_tags
+    images  = var.images
+    timeout = var.timeout
     dynamic "step" {
       for_each = var.steps
       content {

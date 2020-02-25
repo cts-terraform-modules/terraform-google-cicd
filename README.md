@@ -70,12 +70,13 @@ Functional examples are included in the
 | images | (Optional) A list of images to be pushed upon the successful completion of all build steps. | list(string) | `"null"` | no |
 | included\_files | (Optional) A list of files to be specifically included (Golang style globbing). | list(string) | `"null"` | no |
 | project | (Optional) The ID of the project in which the Cloud Build should be deployed. If it is not provided, the provider project is used. | string | `"null"` | no |
-| repo\_dir | (Optional) If you want to push code to the created repo, this is the local dir where the code is stored. | string | n/a | yes |
+| repo\_dir | (Optional) If you want to push code to the created repo, this is the local dir where the code is stored. | string | `""` | no |
 | repo\_name | (Required) Resource name of the repository, of the form {{repo}}. The repo name may contain slashes. eg, name/with/slash | string | n/a | yes |
 | source\_dir | (Optional) Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's dir is specified and is an absolute path, this value is ignored for that step's execution. | string | `"null"` | no |
 | steps | (Optional) A list of objects which define operations to be performed on the workspace. | object | `<list>` | no |
 | substitutions | (Optional) Substitutions data for Build resource. | map(string) | `"null"` | no |
 | tag\_name | (Optional) Name of the tag to build. Exactly one of a branch name, tag, or commit SHA must be provided. | string | `"null"` | no |
+| timeout | (Optional) Max timeout value for the build in seconds | string | `"null"` | no |
 | trigger\_description | (Optional) Human-readable description of the trigger. | string | `"null"` | no |
 
 ## Outputs

@@ -48,6 +48,7 @@ Functional examples are included in the
 | filename | (Optional) Path, from the source root, to a file whose contents is used for the template. Either a filename or build template must be provided. | string | `"null"` | no |
 | ignored\_files | (Optional) A list of files to be ignored by the trigger (Golang style globbing). | string | `"null"` | no |
 | images | (Optional) A list of images to be pushed upon the successful completion of all build steps. | string | `"null"` | no |
+| timeout | (Optional) Max timeout value for the build in seconds | string | `"null"` | no |
 | included\_files | (Optional) A list of files to be specifically included (Golang style globbing). | string | `"null"` | no |
 | project | (Optional) The ID of the project in which the Cloud Build should be deployed. If it is not provided, the provider project is used. | string | `"null"` | no |
 | repo\_name | (Required) Resource name of the repository, of the form {{repo}}. The repo name may contain slashes. eg, name/with/slash | string | n/a | yes |
@@ -75,7 +76,7 @@ These sections describe requirements for using this module.
 The following dependencies must be available:
 
 - [Terraform][terraform] v0.12
-- [Terraform Provider for GCP][terraform-provider-gcp] plugin v2.0
+- [Terraform Provider for GCP][terraform-provider-gcp] plugin v3.1
 
 ### Service Account
 

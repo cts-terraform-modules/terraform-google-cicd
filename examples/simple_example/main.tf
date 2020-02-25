@@ -19,7 +19,7 @@ terraform {
 }
 
 provider "google" {
-  version = "2.14.0"
+  version = "3.7.0"
 }
 
 module "cicd" {
@@ -35,6 +35,7 @@ module "cicd" {
   images = [
     "gcr.io/$PROJECT_ID/kms-secrets-operator:$COMMIT_SHA"
   ]
+  timeout = "900s"
   build_tags = [
     "kms-secrets-operator",
     "image",

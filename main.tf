@@ -1,3 +1,9 @@
+# first ensure that the Cloud Source Repositories API is enabled
+resource "google_project_service" "project" {
+  project = var.project
+  service = "sourcerepo.googleapis.com"
+}
+
 resource "google_sourcerepo_repository" "default" {
   count   = var.create_repo ? 1 : 0
   name    = var.repo_name

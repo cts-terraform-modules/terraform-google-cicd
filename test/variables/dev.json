@@ -1,0 +1,23 @@
+{
+  "folder_id": "folders/925889056994",
+  "folder_name": "dev_folder",
+  "folder": "folders/925889056994",
+  "org_id": "1048886479208",
+  "billing_account": "00976C-63A0B7-F8AB7D",
+  "env_name": "dev",
+  "service_account": "project-factory@cc-sandbox-factory.iam.gserviceaccount.com",
+  "apis": [],
+  "prefix": "sandbox",
+  "purpose": "testing",
+  "folder_iam": {
+    "user:example@example.com": [
+      "roles/owner",
+      "roles/viewer"
+    ]
+  },
+  "project_iam": {
+    "user:example@example.com": [
+      "roles/viewer"
+    ]
+  }
+}

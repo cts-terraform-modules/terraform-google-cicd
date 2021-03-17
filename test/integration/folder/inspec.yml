@@ -1,0 +1,3 @@
+name: default
+depends:
+  - git: https://github.com/inspec/inspec-gcp

@@ -1,37 +1,31 @@
-# Copyright 2018 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# Load remaining variables
+require 'yaml'
+vars = YAML.load(File.read("test/variables/dev.json"))
 
 control "gcp" do
   title "GCP Resources"
 
-  describe google_storage_bucket(name: attribute("bucket_name")) do
+  describe google_sourcerepo_repository(project: vars["project"], name: vars["repo_name"]) do
     it { should exist }
   end
+
+  google_cloudbuild_triggers(project: vars["project"]).ids.each do |id|
+    describe google_cloudbuild_trigger(project: vars["project"], id: id) do
+      # its('filename') { should eq 'cloudbuild.yaml' }
+      its('trigger_template.branch_name') { should eq vars["branch_name"] }
+      its('trigger_template.repo_name') { should eq vars["repo_name"] }
+      its('trigger_template.project_id') { should eq vars["project"] }
+    end
+  end
+
 end
 
 control "local" do
   title "Local resources"
 
-  describe command("gcloud --project=#{attribute("project_id")} services list --enabled") do
+  describe command("gcloud --project=#{vars["project"]} services list --enabled") do
     its(:exit_status) { should eq 0 }
     its(:stderr) { should eq "" }
-    its(:stdout) { should match "storage-api.googleapis.com" }
-  end
-
-  describe command("gsutil ls -p #{attribute("project_id")}") do
-    its(:exit_status) { should eq 0 }
-    its(:stderr) { should eq "" }
-    its(:stdout) { should match "gs://#{attribute("bucket_name")}" }
+    its(:stdout) { should match "sourcerepo.googleapis.com" }
   end
 end

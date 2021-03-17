@@ -20,15 +20,12 @@ verifier:
 platforms:
   - name: dev
     driver:
-      variables:
-        env_name: dev
+      # variables:
+      #   env_name: dev
       variable_files:
         - test/variables/dev.json
 
 suites:
-  - name: folder
-    driver:
-      root_module_directory: modules/folder
-  - name: project
-    driver:
-      root_module_directory: modules/project
+  - name: cicd
+    # driver:
+    #   root_module_directory: modules/folder

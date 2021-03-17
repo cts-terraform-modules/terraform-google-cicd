@@ -44,8 +44,7 @@ Functional examples are included in the
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 0.12.0 |
-| terraform | >= 0.12 |
+| terraform | >= 0.13 |
 
 ## Providers
 

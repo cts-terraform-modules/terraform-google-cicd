@@ -1,8 +1,3 @@
-terraform {
-  required_version = "~> 0.12.0"
-}
-
-// cloud source repository
 resource "google_sourcerepo_repository" "default" {
   count   = var.create_repo ? 1 : 0
   name    = var.repo_name

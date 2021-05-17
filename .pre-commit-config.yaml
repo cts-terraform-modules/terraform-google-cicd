@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: check-yaml
+        args:
+          - --allow-multiple-documents
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: git://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.45.0
+    hooks:
+      # - id: terraform_fmt
+      - id: terraform_docs
+  - repo: git://github.com/chriscunningham-cts/pre-commit-terraform
+    rev: v2.0.2
+    hooks:
+      - id: markdownlint
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v0.14.3
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]

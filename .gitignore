@@ -1,26 +1,18 @@
-# OSX leaves these everywhere on SMB shares
-._*
+### ChefCookbook ###
+.vagrant
+/cookbooks
 
-# OSX trash
-.DS_Store
+# Bundler
+bin/*
+.bundle/*
 
-# Python
-*.pyc
+.kitchen/
+.kitchen.local.yml
+.kitchen.*.local.yml
+kitchen.local.yml
+kitchen.*.local.yml
 
-# Emacs save files
-*~
-\#*\#
-.\#*
-
-# Vim-related files
-[._]*.s[a-w][a-z]
-[._]s[a-w][a-z]
-*.un~
-Session.vim
-.netrwhist
-
-### https://raw.github.com/github/gitignore/90f149de451a5433aebd94d02d11b0e28843a1af/Terraform.gitignore
-
+### Terraform ###
 # Local .terraform directories
 **/.terraform/*
 
@@ -31,15 +23,21 @@ Session.vim
 # Crash log files
 crash.log
 
-# Kitchen files
-**/inspec.lock
-**/.kitchen
-**/kitchen.local.yml
-**/Gemfile.lock
-
 # Ignore any .tfvars files that are generated automatically for each Terraform run. Most
 # .tfvars files are managed as part of configuration and so should be included in
 # version control.
-**/*.tfvars
+#
+# example.tfvars
 
-credentials.json
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Include override files you do wish to add to version control using negated pattern
+# !example_override.tf
+
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+# example: *tfplan*

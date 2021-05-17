@@ -13,7 +13,7 @@ and this project adheres to
 
 ### Added
 
-- Initial release
+-   Initial release
 
 [Unreleased]: https://github.com/terraform-google-modules/terraform-google-cicd/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/terraform-google-modules/terraform-google-cicd/releases/tag/v0.1.0

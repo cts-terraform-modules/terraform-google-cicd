@@ -1,0 +1,42 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+	"name": "terraform-google-cicd",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			// Update 'VARIANT' to pick a Ruby version: 3, 3.0, 2, 2.7, 2.6, 2.5
+			"VARIANT": "2.7",
+			// Options
+			"INSTALL_NODE": "true",
+			"NODE_VERSION": "lts/*"
+		}
+	},
+	"extensions": [
+		"davidanson.vscode-markdownlint",
+		"eamodio.gitlens",
+		"foxundermoon.shell-format",
+		"hashicorp.terraform",
+		"ms-azuretools.vscode-docker",
+		"ms-vsliveshare.vsliveshare",
+	],
+	// "mounts": [
+	// 	"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+	// 	"source=${localEnv:HOME}${localEnv:USERPROFILE}/.config,target=/home/vscode/.config,type=bind"
+	// ],
+	"settings": {
+		"remote.extensionKind": {
+			"ms-azuretools.vscode-docker": "workspace",
+		},
+		"terraform.languageServer": {
+			"enabled": false,
+			"args": []
+		},
+		"terraform.indexing": {
+			"enabled": false,
+			"liveIndexing": false,
+			"exclude": []
+		},
+	},
+	// "postCreateCommand": "sudo chown vscode:vscode /var/run/docker.sock"
+	"postCreateCommand": "pre-commit install",
+}
